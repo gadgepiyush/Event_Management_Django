@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{%block title%} Event Management {%endblock title%}
+
+{%block body%}
+
+    
+    <h1 class="text-center mt-4">Available Events</h1>  
+
+    <form method="post" action="filterevent" class="text-center">
+    {%csrf_token%}
+        <label for="city">City: </label>
+
+        <select name="city" id="city">
+            <option value="">Select a City</option>
+            {% for city in cities %}
+                <option value="{{city}}">{{city}}</option>
+            {% endfor %}
+        </select>
+
+      <label for="category">Category: </label>
+        <select name="category" id="category">
+            <option value="">Select a Category</option>
+            {% for category in categories %}
+                <option value="{{category}}">{{category}}</option>
+            {% endfor %} 
+        </select>
+
+      <button type="submit" class="btn btn-outline-primary "> Search</button>
+    </form>
+
+
+    <!--SECTION AVAILBLE-->
+    {%for event in available%}
+
+    <div class="card event mx-5 my-5">
+        <img src="/media/{{event.image}}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">{{event.event_name}} ({{event.event_category}})</h5>
+
+            <h5>📍 {{event.city}}</h5>
+
+            <p class="card-text">💸 {{event.ticket_price}} ₹  </p>
+            <p class="card-text"><small class="text-muted">⌚ {{event.time}}  🗓️ {{event.date}}   |  Seats Remaining: {{event.available_seats}}</small></p>
+        </div>
+
+        {% if user.is_authenticated %}
+        <a href='ticketbooking/{{event.id}}'><div class="d-grid gap-2">
+            <button type="button" class="btn btn-primary btn-lg">Book Now</button>
+            </div>
+        </a>
+
+        {% endif %}
+    </div>
+    {% endfor %}
+
+<hr>
+
+    <!--SECTION BOOKED-->
+    <h1 class="text-center">Booked Events</h1>
+    {%for event in unavailable%}
+
+    <div class="card event mx-5 my-5">
+        <img src="/media/{{event.image}}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">{{event.event_name}} ({{event.event_category}})</h5>
+            <h5>📍 {{event.city}}</h5>
+            <p class="card-text">💸 {{event.ticket_price}} ₹  </p>
+            <p class="card-text"><small class="text-muted">⌚ {{event.time}}  🗓️ {{event.date}} | Fully Booked</small></p>
+        </div>
+
+    </div>
+    {% endfor %}
+
+
+{%endblock body%}

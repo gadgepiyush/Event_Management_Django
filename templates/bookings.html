@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{%block title%} My Bookings {%endblock title%}
+
+{%block body%}
+    <h2 class="my-3 text-center ">My Bookings </h2>
+    
+<div class="row row-cols-1 row-cols-md-4 g-4 mx-5 my-3">
+    
+  {% for ticket in tickets %}
+
+   <div class="col">
+    <div class="card">
+      <!--<img src="..." class="card-img-top" alt="...">-->
+      <div class="card-body">
+        <h5 class="card-title">{{ticket.event_name}}</h5>
+        <p class="card-text">📍 {{ticket.city}}</p>
+        <p class="card-text">🗓️ {{ticket.date}}</p>
+        <p class="card-text">⌚ {{ticket.time}}</p>
+        {% if ticket.status == "Booked" %}
+            <p class="card-text">✅ {{ticket.status}}</p>
+            <a href="cancelbooking/{{ticket.id}}" class="btn btn-danger">Cancel Ticket</a>
+
+        {% else %}
+            <p class="card-text">❌ {{ticket.status}}</p>
+            <a href="#" class="btn btn-danger disabled">Cancel Ticket</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {% endfor %}
+</div>
+
+{%endblock body%}

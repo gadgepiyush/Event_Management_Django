@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{%block title%}  {%endblock title%}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    
+
+  <style>
+      .event{
+        transition:0.5s;
+        cursor:pointer;
+      }
+      .event-title{  
+        font-size:15px;
+        transition:1s;
+        cursor:pointer;
+      }
+      .event-title i{  
+        font-size:15px;
+        transition:1s;
+        cursor:pointer;
+        color:#ffa710
+      }
+      .event-title i:hover{
+        transform: scale(1.25) rotate(100deg); 
+        color:#18d4ca;
+        
+      }
+      .event:hover{
+        transform: scale(1.05);
+        box-shadow: 10px 10px 15px rgba(0,0,0,0.3);
+      }
+      .event-text{
+        height:80px;  
+      }
+
+      .event::before, .event::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: scale3d(0, 0, 1);
+        transition: transform .3s ease-out 0s;
+        background: rgba(255, 255, 255, 0.1);
+        content: '';
+        pointer-events: none;
+      }
+      .event::before {
+        transform-origin: left top;
+      }
+      .event::after {
+        transform-origin: right bottom;
+      }
+      .event:hover::before, .event:hover::after, .event:focus::before, .event:focus::after {
+        transform: scale3d(1, 1, 1);
+      }
+
+      .card-img-top{
+        height : 400px;
+        object-fit : cover;
+      }
+
+
+
+    .container-fluid,
+    .container {
+        max-width: 1200px;
+    }
+
+    .card-container {
+        padding: 100px 0px;
+        -webkit-perspective: 1000;
+        perspective: 1000;
+    }
+
+
+    .profile-card-2 {
+        max-width: 400px;
+        height : 500px;
+        background-color: #FFF;
+        box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
+        background-position: center;
+        overflow: hidden;
+        position: relative;
+        margin: 10px auto;
+        cursor: pointer;
+        border-radius: 10px;
+    }
+
+    .profile-card-2 img {
+        transition: all linear 0.25s;
+        
+    }
+
+    .profile-card-2 .profile-name {
+        position: absolute;
+        left: 30px;
+        bottom: 70px;
+        font-size: 30px;
+        color: #FFF;
+        text-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+        font-weight: bold;
+        transition: all linear 0.25s;
+    }
+
+    .profile-card-2 .profile-icons {
+        position: absolute;
+        bottom: 30px;
+        right: 30px;
+        color: #FFF;
+        transition: all linear 0.25s;
+    }
+
+    .profile-card-2 .profile-username {
+        position: absolute;
+        bottom: 50px;
+        left: 30px;
+        color: #FFF;
+        font-size: 13px;
+        transition: all linear 0.25s;
+    }
+
+    .profile-card-2:hover img {
+        filter: grayscale(100%);
+    }
+
+    .profile-card-2:hover .profile-name {
+        bottom: 80px;
+    }
+
+    .profile-card-2:hover .profile-username {
+        bottom: 60px;
+    }
+
+    .profile-card-2:hover .profile-icons {
+        right: 40px;
+    }
+
+  </style>
+
+  </head>
+  <body>
+
+      <!-- Navbar content -->
+      <nav class="navbar navbar-dark navbar-expand" style="background: rgb(145,25,227);
+      background: linear-gradient(90deg, rgba(145,25,227,1) 0%, rgba(11,37,127,1) 33%, rgba(207,28,195,1) 58%, rgba(160,181,194,1) 70%, rgba(250,169,57,1) 100%);">
+        <div class="container-fluid mx-5">
+
+          <a class="navbar-brand me-5 ms-5" href="/">
+            <img src="/static/logo.png"  height="70", width="70">
+          </a>
+
+          <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav  mb-2 mb-lg-0 me-auto px-auto d-flex justify-content-center">
+              {% if user.is_authenticated %}
+                <a class="nav-link active" aria-current="page" href="bookings" style="font-weight:bold;">My Bookings</a>
+              {% endif %}
+            </ul>
+
+
+            {% if user.is_authenticated %}
+              
+              <li class="nav-item dropdown d-flex active" style="color:white; font-weight:bold;">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Welcome! {{user.username}}
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">📬 {{user.email}}</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="logout">👋 Logout</a></li>
+                  <li><a class="dropdown-item" href="admin">👨‍💻 Admin</a></li>
+                </ul>
+              </li>
+
+            {% else %}
+
+              <li class="nav-item d-flex" style="color:white; font-weight:bold;">
+                <a class="nav-link active" aria-current="page" href="login">
+                  <button type="button" class="btn btn-danger">Log In</button>
+                </a>
+              </li>
+
+            {% endif %} 
+
+            
+
+            
+          </div>
+        </div>
+      </nav>
+
+    {%block body%}
+    {%endblock body%}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+  </body>
+</html>

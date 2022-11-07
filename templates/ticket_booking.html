@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{%block title%} Book Ticket {%endblock title%}
+
+{%block body%}
+
+    {%for event in event_detail%}
+    
+    
+
+
+    <!--EVENT CARD-->
+    <div class="col-mx-auto my-4"> 
+        <div class="profile-card-2">
+        <img src="/media/{{event.image}}" class="img img-responsive">
+            <div class="profile-name">{{event.event_name}}</div>
+            <div class="profile-username">📍 {{event.city}}</div>
+    </div>
+
+
+    <!--TERMS AND CONDITIONS-->
+    <div class="card border-warning mb-3 mx-5 my-4" >
+        <center><div class="card-header">Terms and Conditions*</div></center>
+        <div class="card-body">
+            <ul style="list-style-type: square;">
+                <li>The User hereby consents, expresses and agrees that he has read and fully understands the Privacy Policy of Bigtree in respect of the Website, The User further consents that the terms and contents of such Privacy Policy are acceptable to him.</li>
+                <li>The User agrees and undertakes not to sell, trade or resell or exploit for any commercial purposes, any portion of the Service. For the removal of doubt, it is clarified that the Website is not for commercial use but is specifically meant for personal use only.</li>
+                <li>Through the Website, Bigtree shall provide you ("User") entertainment-related information, pricing, availability and reservations for ticket for cinemas, plays, concerts, sports events across cities and rural areas throughout India ("Service"), as more particularly described and defined in the terms of service ("TOS") relating to such Service.</li>
+                <li>Additionally, the Service Provider may provide terms and guidelines that govern particular features, offers or the operating rules and policies applicable to each Service (for example, movie tickets, gift vouchers, Combo?s, etc.). </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <!--BOOKING BUTTON-->
+
+    <form method="post" action="/checkout">
+    {%csrf_token%}
+
+        <input type="hidden" name="username" id="username" value={{user.username}}>
+        <input type="hidden" name="event_id" id="event_id" value={{event.id}}>
+
+        <center>
+            <button type="submit" class="btn btn-primary btn-lg">Book Now</button>
+        <center>
+    </form>
+
+    {%endfor%}
+{%endblock body%}
